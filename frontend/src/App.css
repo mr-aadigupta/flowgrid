@@ -1,0 +1,147 @@
+/* IMPORT PREMIUM SAAS FONT */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* GLOBAL BACKGROUND: Pure Black with subtle silver/white gradients */
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-color: #000000;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(255, 255, 255, 0.03) 0px, transparent 50%);
+  background-attachment: fixed;
+  color: #E2E8F0;          
+}
+
+/* =========================================
+   THE OBSIDIAN GLASS UI FRAMEWORK
+========================================= */
+
+/* The main frosted graphite glass panels */
+.glass-panel {
+  background: rgba(15, 15, 15, 0.6); 
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Glass Inputs (Text boxes) */
+.glass-input {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+  color: #F8FAFC;
+}
+
+/* Focus ring is now crisp white/silver instead of blue */
+.glass-input:focus {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 255, 255, 0.1);
+  outline: none;
+}
+
+/* Smooth Button Transitions */
+.btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.6);
+}
+
+/* The tactile "Click" Highlight Effect */
+.btn:active:not(:disabled) {
+  /* Physically push the button down and shrink it slightly */
+  transform: translateY(2px) scale(0.97);
+  
+  /* Add an outer white glow and a deep inner shadow so it feels pressed */
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.3), inset 0 5px 15px rgba(0, 0, 0, 0.6) !important;
+  
+  /* Flash the border bright white */
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  
+  /* Add a subtle flash of light over the button */
+  background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05)) !important;
+}
+
+/* LIVE RECORDING PULSE */
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+  70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.mic-recording {
+  animation: pulse-red 1.5s infinite;
+}
+
+/* ANIMATIONS */
+@keyframes fadeInSlide {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-slide {
+  animation: fadeInSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* DOCTOR CONTACT NOTIFICATION PILL */
+.contact-notification {
+  background: rgba(16, 185, 129, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #34D399;
+  padding: 12px 20px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  margin-top: 20px;
+  font-size: 0.95rem;
+}
+
+/* PREMIUM SCROLLBAR */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
+
+/* =========================================
+   AUDIO VISUALIZER BARS
+========================================= */
+.audio-visualizer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.visualizer-bar {
+  width: 4px;
+  background: #EF4444; /* Danger red to match the recording pulse */
+  border-radius: 4px;
+  animation: equalize 0.5s infinite alternate ease-in-out;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+}
+
+/* Stagger the animation delays and base heights so it looks random and natural */
+.visualizer-bar:nth-child(1) { height: 12px; animation-delay: -0.4s; }
+.visualizer-bar:nth-child(2) { height: 24px; animation-delay: -0.2s; }
+.visualizer-bar:nth-child(3) { height: 16px; animation-delay: 0s; }
+.visualizer-bar:nth-child(4) { height: 22px; animation-delay: -0.3s; }
+.visualizer-bar:nth-child(5) { height: 14px; animation-delay: -0.1s; }
+
+@keyframes equalize {
+  0% { transform: scaleY(0.3); opacity: 0.5; }
+  100% { transform: scaleY(1.1); opacity: 1; }
+}
