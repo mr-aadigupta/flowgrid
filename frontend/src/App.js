@@ -46,13 +46,11 @@ function App() {
   const online = useServerStatus();
 
   // --- THEME TOGGLE LOGIC ---
-  // Default to dark mode (true) unless 'light' is strictly found in localStorage
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
     return savedTheme !== 'light'; 
   });
 
-  // Sync data-theme attribute with state
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.setAttribute('data-theme', 'dark');
@@ -64,10 +62,10 @@ function App() {
   }, [isDarkMode]);
 
   const toggleTheme = () => setIsDarkMode(prev => !prev);
-  // --------------------------
 
   return (
     <>
+      {/* Floating Topbar Dock */}
       <header className="topbar">
         <div className="brand"><Mark />FlowGrid</div>
         <nav className="tabs">
@@ -76,17 +74,24 @@ function App() {
         </nav>
         <div className="status" role="status">
           <span className={`dot ${online ? '' : 'wait'}`} />
-          <span className="stext">{online ? 'Server online' : 'Waking the server, this can take a minute'}</span>
+          <span className="stext">{online ? 'Server online' : 'Waking server...'}</span>
         </div>
         
-        {/* NEW THEME TOGGLE BUTTON */}
+        {/* Theme Toggle Button */}
         <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
           {isDarkMode ? '☀️ Light' : '🌙 Dark'}
         </button>
       </header>
+
+      {/* Main Container */}
       <main className="page">
         {tab === 'triage' ? <VoiceTriage /> : <InventoryManager />}
       </main>
+
+      {/* Credit Footer */}
+      <footer className="credit-bar animate-slide-up" style={{ animationDelay: '0.2s' }}>
+        Built by <strong>Aadi Gupta</strong>
+      </footer>
     </>
   );
 }
@@ -238,7 +243,7 @@ function VoiceTriage() {
   const bookable = alloc && [alloc.bed, ...alloc.personnel, ...alloc.equipment].some((v) => !isAlert(v));
 
   return (
-    <div className="triage">
+    <div className="triage animate-slide-up">
       <section>
         <h1>Describe the emergency</h1>
         <p className="lede">Say or type what’s happening. FlowGrid finds a bed, the right specialists and equipment.</p>
@@ -291,7 +296,8 @@ function VoiceTriage() {
               {stops.map((s, i) => {
                 const bad = !s.kind && isAlert(s.value);
                 return (
-                  <li key={i} className={`stop ${s.kind || ''} ${bad ? 'alert' : ''}`}>
+                  /* INJECTS STAGGERED ANIMATION DELAY VIA --i */
+                  <li key={i} className={`stop ${s.kind || ''} ${bad ? 'alert' : ''}`} style={{ '--i': i }}>
                     <small>{s.label}</small>
                     <strong>{bad ? s.value.replace('ALERT: ', '') : s.value}</strong>
                   </li>
@@ -379,7 +385,7 @@ function InventoryManager() {
   const visible = items.filter((i) => (filter === 'all' || i.type === filter) && i.name.toLowerCase().includes(query.toLowerCase()));
 
   return (
-    <div>
+    <div className="animate-slide-up">
       <div className="inv-head">
         <h1>Staff inventory</h1>
         <div className="sync"><span className={`dot ${live ? '' : 'wait'}`} />{live ? 'Live sync on' : 'Reconnecting…'}</div>
