@@ -90,7 +90,7 @@ function App() {
 
       {/* Credit Footer */}
       <footer className="credit-bar animate-slide-up" style={{ animationDelay: '0.2s' }}>
-        Built by <strong>Aadi Gupta, Jishant Kadyan, Alfred Sabu, and Sohan Vemuri</strong>
+        Built by <strong>Aadi Gupta • Jishant Kadyan • Alfred Sabu • Sohan Vemuri</strong>
       </footer>
     </>
   );
