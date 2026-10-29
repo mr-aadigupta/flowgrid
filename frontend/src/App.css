@@ -71,12 +71,18 @@ button, input, select, textarea { font: inherit; color: inherit; }
   animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* ---------- top bar (Floating Dock) ---------- */
+/* 1. Add this custom animation for the dock */
+@keyframes slideUpDock {
+  0% { opacity: 0; transform: translate(-50%, 20px); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* 2. Replace your existing .topbar class with this */
 .topbar {
   position: fixed; 
   top: 24px; 
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, 0); /* Centered fallback */
   z-index: 50;
   display: flex; 
   align-items: center; 
@@ -89,7 +95,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
   width: max-content;
   max-width: 95vw;
-  animation: slideUpFade 0.5s ease-out forwards;
+  /* Use the new animation that keeps the -50% X offset! */
+  animation: slideUpDock 0.5s ease-out forwards;
   transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 
@@ -291,7 +298,7 @@ td.empty { padding: 36px 20px; text-align: center; color: var(--ink-2); }
 /* ---------- small screens ---------- */
 @media (max-width: 860px) {
   .triage { grid-template-columns: 1fr; gap: 32px; align-items: start; }
-  .topbar { padding: 0 16px; gap: 12px; flex-wrap: wrap; border-radius: 16px; transform: translateX(-50%); }
+  .topbar { padding: 0 16px; gap: 12px; flex-wrap: wrap; border-radius: 16px; }
   .page { padding: 140px 16px 80px; }
   .summary { grid-template-columns: 1fr; }
   .summary > div { border-right: none; border-bottom: 1px solid var(--line); }
