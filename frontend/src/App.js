@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 
+const API_URL = process.env.REACT_APP_API_URL || `${API_URL}/api/coordinate`;
+const WS_URL = API_URL.replace(/^http/, "ws");
+
 function App() {
   const [activeTab, setActiveTab] = useState('triage');
 
@@ -114,7 +117,7 @@ function VoiceTriage() {
     stopListening();
     
     try {
-      const response = await fetch("http://localhost:8000/api/coordinate", {
+      const response = await fetch(`${API_URL}/api/coordinate`, {
         method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ transcript })
       });
       const data = await response.json();
@@ -137,7 +140,7 @@ function VoiceTriage() {
   const handleBook = async () => {
     setBookingState('booking');
     try {
-      const response = await fetch("http://localhost:8000/api/book", {
+      const response = await fetch(`${API_URL}/api/book`, {
         method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(result.allocations)
       });
       if (response.ok) {
@@ -270,7 +273,7 @@ function InventoryManager() {
 
   const fetchResources = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/resources", { cache: "no-store" });
+      const res = await fetch(`${API_URL}/api/resources`, { cache: "no-store" });
       setResources(await res.json());
     } catch (e) { console.error("Failed to fetch resources"); }
   };
@@ -279,7 +282,7 @@ function InventoryManager() {
   useEffect(() => {
     fetchResources(); // Initial load
     
-    const ws = new WebSocket("ws://localhost:8000/ws/inventory");
+    const ws = new WebSocket(`${WS_URL}/ws/inventory`);
     
     ws.onmessage = (event) => {
       if (event.data === "update") {
@@ -293,18 +296,18 @@ function InventoryManager() {
 
   const toggleStatus = async (id, currentStatus) => {
     const newStatus = currentStatus === 'Available' ? 'Occupied' : 'Available';
-    await fetch(`http://localhost:8000/api/resources/${id}`, { method: 'PUT', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: newStatus }) });
+    await fetch(`${API_URL}/api/resources/${id}`, { method: 'PUT', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: newStatus }) });
     // WebSockets will automatically trigger the UI update now!
   };
 
   const addResource = async () => {
     if (!newName) return;
-    await fetch("http://localhost:8000/api/resources", { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ type: newType, name: newName, status: 'Available' }) });
+    await fetch(`${API_URL}/api/resources`, { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ type: newType, name: newName, status: 'Available' }) });
     setNewName(''); 
   };
 
   const deleteResource = async (id) => {
-    await fetch(`http://localhost:8000/api/resources/${id}`, { method: 'DELETE' });
+    await fetch(`${API_URL}/api/resources/${id}`, { method: 'DELETE' });
   };
 
   return (

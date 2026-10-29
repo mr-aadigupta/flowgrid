@@ -4,11 +4,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 import sqlite3
+from database import setup_db
 
 app = FastAPI()
+
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -16,6 +20,8 @@ app.add_middleware(
 # --- ABSOLUTE DATABASE PATH ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "hospital.db")
+if not os.path.exists(DB_PATH):
+    setup_db()
 
 # --- WEBSOCKET MANAGER (For Zero-Refresh UI) ---
 class ConnectionManager:

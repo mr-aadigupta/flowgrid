@@ -1,7 +1,10 @@
+import os
 import sqlite3
 
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hospital.db")
+
 def setup_db():
-    conn = sqlite3.connect('hospital.db')
+    conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     
     # Create the table
