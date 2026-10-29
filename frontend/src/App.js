@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 
-const API_URL = process.env.REACT_APP_API_URL || `${API_URL}/api/coordinate`;
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 const WS_URL = API_URL.replace(/^http/, "ws");
 
 function App() {
