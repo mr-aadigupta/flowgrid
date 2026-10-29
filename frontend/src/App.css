@@ -1,147 +1,183 @@
-/* IMPORT PREMIUM SAAS FONT */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap');
 
-/* GLOBAL BACKGROUND: Pure Black with subtle silver/white gradients */
+:root {
+  --ink: #12262e;
+  --ink-2: #4a5f66;
+  --paper: #f1f5f4;
+  --surface: #ffffff;
+  --line: #d5dedc;
+  --teal: #0b6e72;
+  --teal-dark: #08565a;
+  --red: #c8283c;
+  --red-bg: #fbe9ec;
+  --green: #1c8c5e;
+  --green-bg: #e3f4ec;
+  --amber: #a8620a;
+  --amber-bg: #fdf0dc;
+  --radius: 10px;
+}
+
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, sans-serif;
+  font-family: 'Bricolage Grotesque', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  background-color: #000000;
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.08) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(255, 255, 255, 0.03) 0px, transparent 50%);
-  background-attachment: fixed;
-  color: #E2E8F0;          
 }
 
-/* =========================================
-   THE OBSIDIAN GLASS UI FRAMEWORK
-========================================= */
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 
-/* The main frosted graphite glass panels */
-.glass-panel {
-  background: rgba(15, 15, 15, 0.6); 
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  border-left: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+/* ---------- top bar ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 5;
+  display: flex; align-items: center; gap: 28px;
+  min-height: 64px; padding: 0 32px;
+  background: var(--surface); border-bottom: 1px solid var(--line);
 }
-
-/* Glass Inputs (Text boxes) */
-.glass-input {
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
-  color: #F8FAFC;
+.brand { display: flex; align-items: center; gap: 10px; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; }
+.mark { width: 26px; height: 26px; }
+.mark rect { fill: var(--ink); }
+.mark .hot { fill: var(--red); }
+.tabs { display: flex; align-self: stretch; gap: 4px; }
+.tab {
+  background: none; border: none; padding: 0 16px; cursor: pointer;
+  font-weight: 600; color: var(--ink-2); border-bottom: 3px solid transparent;
 }
+.tab[aria-current="true"] { color: var(--ink); border-bottom-color: var(--teal); }
+.status { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--ink-2); }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+.dot.wait { background: var(--amber); animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: 0.25; } }
 
-/* Focus ring is now crisp white/silver instead of blue */
-.glass-input:focus {
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 255, 255, 0.1);
-  outline: none;
+/* ---------- layout ---------- */
+.page { max-width: 1120px; margin: 0 auto; padding: 44px 32px 80px; }
+.triage { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 44px; align-items: start; }
+h1 { margin: 0 0 12px; font-size: clamp(2rem, 4vw, 2.9rem); line-height: 1.05; letter-spacing: -0.03em; font-weight: 800; }
+h2 { margin: 0; font-size: 1.3rem; letter-spacing: -0.01em; font-weight: 700; }
+.lede { margin: 0 0 24px; max-width: 44ch; color: var(--ink-2); }
+.hint { margin: 10px 0 0; font-size: 0.88rem; color: var(--ink-2); }
+
+/* ---------- voice box ---------- */
+.voicebox {
+  display: flex; align-items: flex-end; gap: 12px; padding: 14px;
+  background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--radius);
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
+.voicebox:focus-within { border-color: var(--teal); }
+.voicebox.live { border-color: var(--red); box-shadow: 0 0 0 4px var(--red-bg); }
+.voicebox textarea {
+  flex: 1; min-height: 76px; resize: none; border: none; outline: none;
+  background: transparent; font-size: 1.1rem;
+}
+.mic {
+  flex-shrink: 0; width: 52px; height: 52px; border: none; border-radius: 50%;
+  display: grid; place-items: center; cursor: pointer; background: var(--ink); color: #fff;
+}
+.mic.live { background: var(--red); }
+.bars { display: flex; align-items: center; gap: 3px; height: 24px; margin-bottom: 14px; }
+.bars i { width: 3px; height: 100%; border-radius: 2px; background: var(--red); animation: bar 0.9s ease-in-out infinite; }
+.bars i:nth-child(2) { animation-delay: 0.15s; }
+.bars i:nth-child(3) { animation-delay: 0.3s; }
+.bars i:nth-child(4) { animation-delay: 0.45s; }
+@keyframes bar { 0%, 100% { transform: scaleY(0.25); } 50% { transform: scaleY(1); } }
 
-/* Smooth Button Transitions */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 20px; }
+.chip {
+  padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface); color: var(--ink-2); font-size: 0.9rem; cursor: pointer;
+}
+.chip:hover { border-color: var(--teal); color: var(--teal); }
+
+/* ---------- buttons ---------- */
 .btn {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 22px; border: 1px solid var(--teal); border-radius: var(--radius);
+  background: var(--teal); color: #fff; font-weight: 650; cursor: pointer;
 }
+.btn:hover:not(:disabled) { background: var(--teal-dark); }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.btn.block { width: 100%; padding: 15px 22px; font-size: 1.05rem; }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn.ghost:hover:not(:disabled) { background: var(--paper); }
+.btn.done { background: var(--green); border-color: var(--green); opacity: 1; }
+.btn.small { padding: 6px 14px; font-size: 0.88rem; }
+.btn.danger { background: transparent; color: var(--red); border-color: #e8b4bc; }
+.btn.danger:hover:not(:disabled) { background: var(--red-bg); }
 
-.btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.6);
+/* ---------- dispatch plan ---------- */
+.plan { padding: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.plan.empty { padding: 40px 28px; border-style: dashed; background: transparent; color: var(--ink-2); }
+.plan.empty h2 { margin-bottom: 6px; color: var(--ink); }
+.plan.empty p { margin: 0; max-width: 38ch; }
+
+.route { position: relative; margin: 22px 0 26px; padding: 0; list-style: none; }
+.route::before { content: ''; position: absolute; left: 11px; top: 14px; bottom: 14px; width: 3px; background: var(--line); }
+.stop { position: relative; padding: 0 0 20px 40px; }
+.stop:last-child { padding-bottom: 0; }
+.stop::before {
+  content: ''; position: absolute; left: 3px; top: 4px; width: 19px; height: 19px;
+  border-radius: 50%; background: var(--surface); border: 4px solid var(--green);
 }
+.stop.case::before { border-color: var(--ink); }
+.stop.none::before { border-color: var(--line); }
+.stop.alert::before { border-color: var(--red); }
+.stop small { display: block; font-size: 0.85rem; color: var(--ink-2); }
+.stop strong { font-size: 1.08rem; font-weight: 650; }
+.stop.none strong { color: var(--ink-2); font-weight: 500; }
+.stop.alert strong { color: var(--red); }
 
-/* The tactile "Click" Highlight Effect */
-.btn:active:not(:disabled) {
-  /* Physically push the button down and shrink it slightly */
-  transform: translateY(2px) scale(0.97);
-  
-  /* Add an outer white glow and a deep inner shadow so it feels pressed */
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.3), inset 0 5px 15px rgba(0, 0, 0, 0.6) !important;
-  
-  /* Flash the border bright white */
-  border: 1px solid rgba(255, 255, 255, 0.9) !important;
-  
-  /* Add a subtle flash of light over the button */
-  background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05)) !important;
+.note { margin: 0 0 16px; padding: 10px 14px; border-radius: 8px; background: var(--amber-bg); color: var(--amber); font-size: 0.92rem; }
+.notice { margin: 0 0 20px; padding: 12px 16px; border-radius: 8px; background: var(--red-bg); color: var(--red); font-weight: 550; }
+.actions { display: flex; gap: 12px; }
+.actions .btn:first-child { flex: 1; }
+
+/* ---------- inventory ---------- */
+.inv-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.sync { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--ink-2); }
+
+.summary { display: grid; grid-template-columns: repeat(3, 1fr); margin-bottom: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.summary > div { padding: 18px 22px; border-right: 1px solid var(--line); }
+.summary > div:last-child { border-right: none; }
+.summary b { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.03em; }
+.summary span { color: var(--ink-2); }
+.summary p { margin: 0; font-size: 0.92rem; color: var(--ink-2); }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }
+.seg { display: flex; padding: 3px; background: #e4ebea; border-radius: var(--radius); }
+.seg button { padding: 7px 14px; border: none; border-radius: 8px; background: transparent; font-weight: 600; font-size: 0.9rem; color: var(--ink-2); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(18, 38, 46, 0.15); }
+.field { padding: 10px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); outline: none; }
+.field:focus { border-color: var(--teal); }
+.toolbar .field { flex: 1; min-width: 180px; }
+
+.addrow { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; padding: 14px; background: var(--surface); border: 1px dashed var(--line); border-radius: var(--radius); }
+.addrow .field { flex: 1; min-width: 160px; }
+
+.tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+table { width: 100%; border-collapse: collapse; text-align: left; }
+th { padding: 14px 20px; font-size: 0.88rem; font-weight: 600; color: var(--ink-2); background: #f7faf9; border-bottom: 1px solid var(--line); }
+td { padding: 14px 20px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: none; }
+td.name { font-weight: 600; }
+td.type { color: var(--ink-2); }
+td.row-actions { display: flex; gap: 8px; }
+td.empty { padding: 36px 20px; text-align: center; color: var(--ink-2); }
+.badge { display: inline-block; padding: 3px 12px; border-radius: 999px; font-size: 0.85rem; font-weight: 650; }
+.badge.ok { background: var(--green-bg); color: var(--green); }
+.badge.busy { background: var(--amber-bg); color: var(--amber); }
+
+/* ---------- small screens ---------- */
+@media (max-width: 860px) {
+  .triage { grid-template-columns: 1fr; gap: 32px; }
+  .topbar { padding: 0 16px; gap: 12px; flex-wrap: wrap; }
+  .page { padding: 28px 16px 60px; }
+  .summary { grid-template-columns: 1fr; }
+  .summary > div { border-right: none; border-bottom: 1px solid var(--line); }
+  .summary > div:last-child { border-bottom: none; }
 }
-
-/* LIVE RECORDING PULSE */
-@keyframes pulse-red {
-  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
-  70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-}
-
-.mic-recording {
-  animation: pulse-red 1.5s infinite;
-}
-
-/* ANIMATIONS */
-@keyframes fadeInSlide {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.fade-in-slide {
-  animation: fadeInSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-/* DOCTOR CONTACT NOTIFICATION PILL */
-.contact-notification {
-  background: rgba(16, 185, 129, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  color: #34D399;
-  padding: 12px 20px;
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 500;
-  margin-top: 20px;
-  font-size: 0.95rem;
-}
-
-/* PREMIUM SCROLLBAR */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
-
-/* =========================================
-   AUDIO VISUALIZER BARS
-========================================= */
-.audio-visualizer {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  height: 24px;
-  margin-right: 10px;
-}
-
-.visualizer-bar {
-  width: 4px;
-  background: #EF4444; /* Danger red to match the recording pulse */
-  border-radius: 4px;
-  animation: equalize 0.5s infinite alternate ease-in-out;
-  box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
-}
-
-/* Stagger the animation delays and base heights so it looks random and natural */
-.visualizer-bar:nth-child(1) { height: 12px; animation-delay: -0.4s; }
-.visualizer-bar:nth-child(2) { height: 24px; animation-delay: -0.2s; }
-.visualizer-bar:nth-child(3) { height: 16px; animation-delay: 0s; }
-.visualizer-bar:nth-child(4) { height: 22px; animation-delay: -0.3s; }
-.visualizer-bar:nth-child(5) { height: 14px; animation-delay: -0.1s; }
-
-@keyframes equalize {
-  0% { transform: scaleY(0.3); opacity: 0.5; }
-  100% { transform: scaleY(1.1); opacity: 1; }
-}
+@media (max-width: 640px) { .stext { display: none; } }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
