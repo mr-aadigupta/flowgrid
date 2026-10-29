@@ -278,23 +278,18 @@ td.empty { padding: 36px 20px; text-align: center; color: var(--ink-2); }
 
 /* ---------- bottom credit bar ---------- */
 .credit-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+  /* Removed position: fixed so it flows normally at the bottom of the document */
   text-align: center;
-  padding: 16px;
+  padding: 20px 16px 60px; /* Added extra bottom padding for breathing room */
   background: transparent;
-  border-top: none;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--ink-2);
-  opacity: 0.5;
-  z-index: 40;
-  pointer-events: none;
+  margin-top: 20px;
 }
+
 .credit-bar strong {
-  font-weight: 500;
-  color: var(--ink-2);
+  font-weight: 600;
+  color: var(--teal); /* Brought back the signature teal color */
 }
 
 /* ---------- small screens ---------- */
