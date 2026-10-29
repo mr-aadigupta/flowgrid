@@ -45,6 +45,27 @@ function App() {
   const [tab, setTab] = useState('triage');
   const online = useServerStatus();
 
+  // --- THEME TOGGLE LOGIC ---
+  // Default to dark mode (true) unless 'light' is strictly found in localStorage
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme !== 'light'; 
+  });
+
+  // Sync data-theme attribute with state
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDarkMode]);
+
+  const toggleTheme = () => setIsDarkMode(prev => !prev);
+  // --------------------------
+
   return (
     <>
       <header className="topbar">
@@ -57,6 +78,11 @@ function App() {
           <span className={`dot ${online ? '' : 'wait'}`} />
           <span className="stext">{online ? 'Server online' : 'Waking the server, this can take a minute'}</span>
         </div>
+        
+        {/* NEW THEME TOGGLE BUTTON */}
+        <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+          {isDarkMode ? '☀️ Light' : '🌙 Dark'}
+        </button>
       </header>
       <main className="page">
         {tab === 'triage' ? <VoiceTriage /> : <InventoryManager />}
