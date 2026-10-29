@@ -56,6 +56,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
   100% { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes slideUpDock {
+  0% { opacity: 0; transform: translate(-50%, 20px); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+
 @keyframes popIn {
   0% { opacity: 0; transform: scale(0.96); }
   100% { opacity: 1; transform: scale(1); }
@@ -71,18 +76,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
   animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* 1. Add this custom animation for the dock */
-@keyframes slideUpDock {
-  0% { opacity: 0; transform: translate(-50%, 20px); }
-  100% { opacity: 1; transform: translate(-50%, 0); }
-}
-
-/* 2. Replace your existing .topbar class with this */
+/* ---------- top bar (Expanded Floating Dock) ---------- */
 .topbar {
   position: fixed; 
   top: 24px; 
   left: 50%;
-  transform: translate(-50%, 0); /* Centered fallback */
+  transform: translate(-50%, 0);
   z-index: 50;
   display: flex; 
   align-items: center; 
@@ -91,11 +90,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
   padding: 0 16px 0 24px;
   background: var(--surface); 
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 16px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-  width: max-content;
-  max-width: 95vw;
-  /* Use the new animation that keeps the -50% X offset! */
+  
+  width: calc(100% - 64px); 
+  max-width: 1056px;
+  
   animation: slideUpDock 0.5s ease-out forwards;
   transition: background-color 0.4s ease, border-color 0.4s ease;
 }
@@ -116,6 +116,28 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
 .dot.wait { background: var(--amber); animation: pulse 1.4s ease-in-out infinite; }
 @keyframes pulse { 50% { opacity: 0.25; } }
+
+/* ---------- theme toggle button (Icon Only) ---------- */
+.theme-toggle {
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.theme-toggle:hover {
+  border-color: var(--teal);
+  transform: translateY(-1px);
+}
 
 /* ---------- layout ---------- */
 .page { max-width: 1120px; margin: 0 auto; padding: 120px 32px 80px; }
@@ -195,7 +217,6 @@ h2 { margin: 0; font-size: 1.3rem; letter-spacing: -0.01em; font-weight: 700; }
 .route::before { content: ''; position: absolute; left: 11px; top: 14px; bottom: 14px; width: 3px; background: var(--line); }
 .stop { 
   position: relative; padding: 0 0 20px 40px; 
-  /* Staggered animation using the inline --i variable passed from React */
   opacity: 0;
   animation: slideUpFade 0.4s ease-out forwards;
   animation-delay: calc(var(--i) * 0.12s);
@@ -218,26 +239,6 @@ h2 { margin: 0; font-size: 1.3rem; letter-spacing: -0.01em; font-weight: 700; }
 .notice { margin: 0 0 20px; padding: 12px 16px; border-radius: 8px; background: var(--red-bg); color: var(--red); font-weight: 550; animation: slideUpFade 0.3s ease-out; }
 .actions { display: flex; gap: 12px; }
 .actions .btn:first-child { flex: 1; }
-
-/* ---------- theme toggle button ---------- */
-.theme-toggle {
-  background: var(--paper);
-  color: var(--ink);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 6px 14px;
-  font-size: 0.85rem;
-  font-weight: 650;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s;
-}
-.theme-toggle:hover {
-  border-color: var(--teal);
-  transform: translateY(-1px);
-}
 
 /* ---------- inventory ---------- */
 .inv-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
@@ -282,23 +283,29 @@ td.empty { padding: 36px 20px; text-align: center; color: var(--ink-2); }
   left: 0;
   width: 100%;
   text-align: center;
-  padding: 10px;
-  background: var(--surface);
-  border-top: 1px solid var(--line);
-  font-size: 0.85rem;
+  padding: 16px;
+  background: transparent;
+  border-top: none;
+  font-size: 0.8rem;
   color: var(--ink-2);
+  opacity: 0.5;
   z-index: 40;
-  transition: background-color 0.4s ease, border-color 0.4s ease;
+  pointer-events: none;
 }
 .credit-bar strong {
-  color: var(--teal);
-  font-weight: 600;
+  font-weight: 500;
+  color: var(--ink-2);
 }
 
 /* ---------- small screens ---------- */
 @media (max-width: 860px) {
   .triage { grid-template-columns: 1fr; gap: 32px; align-items: start; }
-  .topbar { padding: 0 16px; gap: 12px; flex-wrap: wrap; border-radius: 16px; }
+  .topbar { 
+    padding: 0 16px; 
+    gap: 12px; 
+    flex-wrap: wrap; 
+    width: calc(100% - 32px); 
+  } 
   .page { padding: 140px 16px 80px; }
   .summary { grid-template-columns: 1fr; }
   .summary > div { border-right: none; border-bottom: 1px solid var(--line); }
