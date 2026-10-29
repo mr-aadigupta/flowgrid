@@ -280,7 +280,7 @@ td.empty { padding: 36px 20px; text-align: center; color: var(--ink-2); }
 .credit-bar {
   /* Removed position: fixed so it flows normally at the bottom of the document */
   text-align: center;
-  padding: 20px 16px 60px; /* Added extra bottom padding for breathing room */
+  padding: 0px 16px 20px; /* Added extra bottom padding for breathing room */
   background: transparent;
   font-size: 0.85rem;
   color: var(--ink-2);
