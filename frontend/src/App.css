@@ -298,13 +298,27 @@ td.empty { padding: 36px 20px; text-align: center; color: var(--ink-2); }
   .topbar { 
     padding: 0 16px; 
     gap: 12px; 
-    flex-wrap: wrap; 
+    flex-wrap: nowrap; 
     width: calc(100% - 32px); 
   } 
-  .page { padding: 140px 16px 20px; }
+  .page { padding: 110px 16px 20px; }
   .summary { grid-template-columns: 1fr; }
   .summary > div { border-right: none; border-bottom: 1px solid var(--line); }
   .summary > div:last-child { border-bottom: none; }
 }
-@media (max-width: 640px) { .stext { display: none; } }
+@media (max-width: 640px) {
+  .stext { display: none; }
+  .topbar { top: 12px; min-height: 56px; padding: 0 10px; gap: 8px; width: calc(100% - 24px); }
+  .page { padding: 92px 16px 20px; }
+  .brand { font-size: 1.05rem; gap: 6px; }
+  .mark { width: 22px; height: 22px; }
+  .tabs { flex: 1; min-width: 0; justify-content: center; gap: 0; }
+  .tab { padding: 0 8px; font-size: 0.85rem; white-space: nowrap; min-width: 0; }
+  .status { margin-left: 0; padding-right: 0; }
+  .theme-toggle { width: 34px; height: 34px; font-size: 1rem; }
+}
+@media (max-width: 480px) {
+  .brand { font-size: 0; gap: 0; } /* keep only the logo mark on phones */
+  .tab { padding: 0 6px; font-size: 0.8rem; }
+}
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
